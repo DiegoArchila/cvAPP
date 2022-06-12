@@ -1,4 +1,4 @@
-const { encrypt, comparePassword } = require("../../lib/formats.js");
+const { encrypt, validate } = require("../../lib/get.lib.js");
 
 /**
  * User model representation
@@ -7,7 +7,7 @@ const { encrypt, comparePassword } = require("../../lib/formats.js");
  * @returns Sequelize User model
  */
 module.exports = (sequelize, DataTypes) => {
-  
+
   //Set the Alias
   const alias = "User";
 
@@ -53,9 +53,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue:"/img/userDefault.svg"
     },
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
-    deleted_at: DataTypes.DATE
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull:false
+    },
+    updated_at:  {
+      type: DataTypes.DATE,
+      allowNull:false
+    },
+    deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true
+    }
   };
 
   //Sets configurations the from model or table
@@ -81,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
  * @returns 
  */
     User.prototype.validPwd= function (pwdString) {
-    return comparePassword(pwdString, this.pwd);
+    return validate(pwdString, this.pwd);
   }
 
 
@@ -100,27 +109,28 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:"genderId"
     });
 
-    // phones
+    // Phones
     User.hasMany(models.Phone, {
       as: "phones",
       foreignKey: "userId",
     });
 
-
-
-    User.hasMany(models.UserLocation, {
+    // Locations
+    User.hasMany(models.Location, {
       as: "locations",
-      foreignKey:"userId"
+      foreignKey: "userId",
     });
 
-    User.hasMany(models.UserCart, {
-      as: "cartsUsers",
-      foreignKey: "userId"
+    // Educations
+    User.hasMany(models.Education, {
+      as: "educations",
+      foreignKey: "userId",
     });
 
-    User.hasMany(models.Cart, {
-      as: "userCarts",
-      foreignKey: "userId"
+    // Experience
+    User.hasMany(models.Experience, {
+      as: "experiences",
+      foreignKey: "userId",
     });
 
   };

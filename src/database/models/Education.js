@@ -1,13 +1,13 @@
 /**
- * Email model representation
+ * Education model representation
  * @param {import("sequelize").Sequelize} sequelize 
  * @param {import("sequelize").DataTypes} DataTypes 
- * @returns Sequelize Email model
+ * @returns Sequelize Education model
  */
  module.exports = (sequelize, DataTypes) => {
   
     //Set the Alias
-    const alias = "Email";
+    const alias = "Education";
   
     //Sets the columns
     const cols = {
@@ -17,10 +17,25 @@
         primaryKey: true,
         allowNull: false,
       },
-      email: {
+      NameEntity: {
         type: DataTypes.STRING(256),
         allowNull: false,
-        unique: true,
+      },
+      titleObtain: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+      },
+      _of: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      _to: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+      },
+      file: {
+        type: DataTypes.STRING(256),
+        allowNull: true,
       },
       descript: {
         type: DataTypes.STRING(256),
@@ -46,7 +61,7 @@
   
     //Sets configurations the from model or table
     const config = {
-      tableName: "Emails",
+      tableName: "educations",
       timestamps: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
@@ -54,13 +69,13 @@
     };
   
     //------------------------- Asignation
-    const Email = sequelize.define(alias, cols, config);
+    const Education = sequelize.define(alias, cols, config);
   
     //------------------------- Relationship
-    Email.associate = (models) => {
+    Education.associate = (models) => {
   
-        //Emails -> Users
-        Email.belongsTo(models.User, {
+        //Education -> Users
+        Education.belongsTo(models.User, {
           as: "user",
           foreignKey: "userId",
         });    
@@ -68,6 +83,6 @@
     };
   
     //------------------------- Return
-    return Email;
+    return Education;
   
   };

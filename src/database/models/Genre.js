@@ -1,13 +1,13 @@
 /**
- * Email model representation
+ * Genre model representation
  * @param {import("sequelize").Sequelize} sequelize 
  * @param {import("sequelize").DataTypes} DataTypes 
- * @returns Sequelize Email model
+ * @returns Sequelize Genre model
  */
  module.exports = (sequelize, DataTypes) => {
   
     //Set the Alias
-    const alias = "Email";
+    const alias = "Genre";
   
     //Sets the columns
     const cols = {
@@ -17,7 +17,7 @@
         primaryKey: true,
         allowNull: false,
       },
-      email: {
+      genre: {
         type: DataTypes.STRING(256),
         allowNull: false,
         unique: true,
@@ -26,15 +26,11 @@
         type: DataTypes.STRING(256),
         allowNull:true
       },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       created_at: {
         type: DataTypes.DATE,
         allowNull:false
       },
-      updated_at:  {
+      updated_at: {
         type: DataTypes.DATE,
         allowNull:false
       },
@@ -46,7 +42,7 @@
   
     //Sets configurations the from model or table
     const config = {
-      tableName: "Emails",
+      tableName: "genres",
       timestamps: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
@@ -54,20 +50,14 @@
     };
   
     //------------------------- Asignation
-    const Email = sequelize.define(alias, cols, config);
+    const Genre = sequelize.define(alias, cols, config);
   
     //------------------------- Relationship
-    Email.associate = (models) => {
-  
-        //Emails -> Users
-        Email.belongsTo(models.User, {
-          as: "user",
-          foreignKey: "userId",
-        });    
-
-    };
+    /**
+     * Don't have Relations
+     */
   
     //------------------------- Return
-    return Email;
+    return Genre;
   
   };

@@ -1,13 +1,13 @@
 /**
- * Email model representation
+ * Location model representation
  * @param {import("sequelize").Sequelize} sequelize 
  * @param {import("sequelize").DataTypes} DataTypes 
- * @returns Sequelize Email model
+ * @returns Sequelize Location model
  */
  module.exports = (sequelize, DataTypes) => {
   
     //Set the Alias
-    const alias = "Email";
+    const alias = "Location";
   
     //Sets the columns
     const cols = {
@@ -17,10 +17,21 @@
         primaryKey: true,
         allowNull: false,
       },
-      email: {
+      country: {
         type: DataTypes.STRING(256),
         allowNull: false,
-        unique: true,
+      },
+      state_province: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+      },
+      city_town: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+      },
+      addressLine: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
       },
       descript: {
         type: DataTypes.STRING(256),
@@ -46,7 +57,7 @@
   
     //Sets configurations the from model or table
     const config = {
-      tableName: "Emails",
+      tableName: "locations",
       timestamps: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
@@ -54,13 +65,13 @@
     };
   
     //------------------------- Asignation
-    const Email = sequelize.define(alias, cols, config);
+    const Location = sequelize.define(alias, cols, config);
   
     //------------------------- Relationship
-    Email.associate = (models) => {
+    Location.associate = (models) => {
   
-        //Emails -> Users
-        Email.belongsTo(models.User, {
+        //Locations -> Users
+        Location.belongsTo(models.User, {
           as: "user",
           foreignKey: "userId",
         });    
@@ -68,6 +79,6 @@
     };
   
     //------------------------- Return
-    return Email;
+    return Location;
   
   };
